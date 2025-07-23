@@ -12,8 +12,9 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyUser = (req, res, next) => {
-  if (!req.user || req.user.role !== "user") {
-    return res.status(403).json({ message: "Access denied: User only" });
+  const role = req.user.role;
+  if (!["admin", "user", "vendor"].includes(role)) {
+    return res.status(403).json({ message: "Access denied" });
   }
   next();
 };
